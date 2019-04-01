@@ -1,0 +1,8 @@
+<div id="weatherReportContainer">
+	<div id="filterWeather">
+		<app-filter (onFormSubmitted)="fetchWeatherDetails($event)"></app-filter>
+	</div>
+	<div id="visualizeWeather">
+		<app-chart [chartData]="chartData"></app-chart>
+	</div>
+</div>

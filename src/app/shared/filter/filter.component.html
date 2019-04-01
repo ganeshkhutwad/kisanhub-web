@@ -1,0 +1,62 @@
+<mat-accordion>
+	<mat-expansion-panel
+		(opened)="panelOpenState = true"
+		(closed)="panelOpenState = false"
+	>
+		<mat-expansion-panel-header>
+			<mat-panel-title>
+				Search Weather Report
+			</mat-panel-title>
+			<mat-panel-description>
+				Click here to {{panelOpenState ? 'collapse' : 'expand'}}
+			</mat-panel-description>
+		</mat-expansion-panel-header>
+		<form class="filter-form" [formGroup]="weatherForm" (ngSubmit)="onSubmit()" #f="ngForm">
+			<mat-form-field>
+				<input matInput formControlName="fromDate" [matDatepicker]="fromPicker" placeholder="Choose a from date" disabled>
+				<mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+				<mat-datepicker #fromPicker disabled="false"></mat-datepicker>
+				<mat-error *ngIf="weatherForm.controls.fromDate.hasError('required')">
+					From Date is <strong>required</strong>
+				</mat-error>
+			</mat-form-field>
+
+			<mat-form-field>
+				<input matInput formControlName="toDate" [matDatepicker]="toPicker" placeholder="Choose a to date" disabled>
+				<mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+				<mat-datepicker #toPicker disabled="false"></mat-datepicker>
+				<mat-error *ngIf="weatherForm.controls.toDate.hasError('required')">
+					To Date is <strong>required</strong>
+				</mat-error>
+			</mat-form-field>
+
+			<mat-form-field>
+				<mat-label>Choose Metric</mat-label>
+					<mat-select formControlName="metric" [errorStateMatcher]="matcher">
+						<mat-option *ngFor="let metric of metrics" [value]="metric.value">
+							{{metric.viewValue}}
+						</mat-option>
+				</mat-select>
+				<mat-error *ngIf="weatherForm.controls.metric.hasError('required')">
+					Metric is <strong>required</strong>
+				</mat-error>
+			</mat-form-field>
+		
+			<mat-form-field>
+				<mat-label>Choose Country</mat-label>
+					<mat-select formControlName="country">
+						<mat-option *ngFor="let country of countries" [value]="country.value">
+						{{country.viewValue}}
+					</mat-option>
+				</mat-select>
+				<mat-error *ngIf="weatherForm.controls.country.hasError('required')">
+					Country is <strong>required</strong>
+				</mat-error>
+			</mat-form-field>
+			<div class="button-row">
+				<button mat-raised-button color="primary">Search</button>
+				<button mat-raised-button type="reset" (click)="onReset()">Reset</button>
+			</div>
+		</form>
+	</mat-expansion-panel>
+</mat-accordion>
